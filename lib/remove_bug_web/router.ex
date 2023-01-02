@@ -8,6 +8,15 @@ defmodule RemoveBugWeb.Router do
     plug :put_root_layout, {RemoveBugWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+
+    
+    live "/tests", TestLive.Index, :index
+    live "/tests/new", TestLive.Index, :new
+    live "/tests/:id/edit", TestLive.Index, :edit
+
+    live "/tests/:id", TestLive.Show, :show
+    live "/tests/:id/show/edit", TestLive.Show, :edit
+
   end
 
   pipeline :api do
