@@ -34,6 +34,14 @@ window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 
+// after runnning `mix phx.server` (it might be necessary to also do ecto.create + ecto.migrate)
+// go to:
+//
+// http://localhost:4000/tests
+//
+// click "New Test"
+// and then the bug button
+
 let Hooks = {}
 Hooks.Bug = {
   mounted() {
