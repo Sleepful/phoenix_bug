@@ -27,13 +27,44 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
+
+let Hooks = {}
+Hooks.Bug = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      console.log(
+        "click!",
+        `
+        Now you will see that 'this.el' refers
+        only to the button HTML node, yet when
+        using the remove() function, the entire
+        modal will close.
+
+        Expected behavior:
+        The <button> element is removed from the modal.
+
+        Actual behavior:
+        The modal is closed.`,
+        this.el)
+      this.el.remove()
+
+      // I found the bug by using `remove()` inside
+      // a custom-element, so the bug is not unique to
+      // phx-hooks, and the same issue will happen with a
+      // querySelector, for example:
+
+      // document.getElementById("bug").remove()
+    })
+  }
+}
+
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks})
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 

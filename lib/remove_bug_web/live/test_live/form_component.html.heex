@@ -9,6 +9,11 @@
     phx-change="validate"
     phx-submit="save">
   
+    <div phx-update="ignore" id="even-ignoring-does-not-help">
+      <button type="button" id="bug" phx-hook="Bug">
+        Click me to reproduce bug
+      </button>
+    </div>
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
